@@ -28,7 +28,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third-Party Apps
     'rest_framework',
+    'rest_framework.authtoken',
+
+    # Local Apps
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -126,92 +131,16 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '../_media')
 
-'''
-# Extend admin user access model
-AUTH_USER_MODEL = 'admin_users.BaseUser'
 
-
-# AUTHENTICATION_BACKENDS = ('admin_users.authentication.MyCustomBackend',)
-
-
-#!/usr/bin/env python
-import os
-import sys
-
-if __name__ == "__main__":
-    if os.path.exists('_api/settings/production.py'):
-        DJANGO_SETTINGS_MODULE = '_api.settings.production'
-    else:
-        DJANGO_SETTINGS_MODULE = '_api.settings.development'
-
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', DJANGO_SETTINGS_MODULE)
-
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError:
-        # The above import may fail for some other reason. Ensure that the
-        # issue is really that Django is missing to avoid masking other
-        # exceptions on Python 2.
-        try:
-            import django
-        except ImportError:
-            raise ImportError(
-                "Couldn't import Django. Are you sure it's installed and "
-                "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
-            )
-        raise
-    execute_from_command_line(sys.argv)
-
-
-#!/usr/bin/env python
-import os
-import sys
-
-if __name__ == "__main__":
-    if os.path.exists('_api/settings/production.py'):
-        DJANGO_SETTINGS_MODULE = '_api.settings.production'
-    else:
-        DJANGO_SETTINGS_MODULE = '_api.settings.development'
-
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', DJANGO_SETTINGS_MODULE)
-
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError:
-        # The above import may fail for some other reason. Ensure that the
-        # issue is really that Django is missing to avoid masking other
-        # exceptions on Python 2.
-        try:
-            import django
-        except ImportError:
-            raise ImportError(
-                "Couldn't import Django. Are you sure it's installed and "
-                "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
-            )
-        raise
-    execute_from_command_line(sys.argv)
-
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'api.auth.MyTokenAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #    'api.permissions.IsAuthenticated',
-    #),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', ),
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
-
-# To paginate the admin models
-PAGINATE_BY = 10
-SPA_URL = "http://kroo.ironbit.net/"
-
-# For adding cronjobs
-CRONJOBS = [
-    ('0 4 * * 0-6','api.cron_tasks.cancel_travel'),
-    ('0 5 * * 0-6','api.cron_tasks.pendient_refound'),
-
-]
-'''

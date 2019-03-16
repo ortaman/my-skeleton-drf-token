@@ -4,9 +4,12 @@ import sys
 
 if __name__ == '__main__':
 
-    if os.path.exists('_my_app/settings/production.py'):
+    DJANGO_ENV = os.environ.get('DJANGO_ENV', 'development')
+
+    if DJANGO_ENV == 'production':
         DJANGO_SETTINGS_MODULE = '_my_app.settings.production'
-    else:
+
+    elif DJANGO_ENV == 'development':
         DJANGO_SETTINGS_MODULE = '_my_app.settings.development'
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', DJANGO_SETTINGS_MODULE)

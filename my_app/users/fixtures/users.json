@@ -1,0 +1,27 @@
+[
+  {
+    "model": "users.user",
+    "fields": {
+      "id": "1",
+      "email": "user@user.com",
+      "username": "username",
+      "password": "pass",
+      "names": "name",
+      "surnames": "surname",
+      "phone": "11111111",
+      "gender": "fememino",
+      "created_at": "2011-11-11T00:00:00.000000Z",
+      "updated_at": "2011-11-12T00:00:00.000000Z",
+      "is_active": true,
+      "is_staff": false
+    }
+  },
+  {
+    "model": "authtoken.token",
+    "pk": "8933f3c18e73ee3f93cf3b87af100808d5711deb",
+    "fields": {
+      "user": "1",
+      "created": "2011-11-11T00:00:00.000000Z"
+    }
+  }
+]
