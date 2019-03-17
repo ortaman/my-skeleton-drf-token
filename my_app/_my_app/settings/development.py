@@ -37,7 +37,7 @@ DATABASES = {
 INSTALLED_APPS += [
     'django_extensions',
     'debug_toolbar',
-    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE += [
@@ -54,3 +54,14 @@ EMAIL_PORT = 587                            #Add port of your email account
 EMAIL_HOST_USER = 'user@gmail.com' #Add the account email
 EMAIL_HOST_PASSWORD = 'pass'         #Add password the account email
 '''
+
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
