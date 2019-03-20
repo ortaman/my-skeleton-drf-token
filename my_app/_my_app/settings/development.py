@@ -12,27 +12,24 @@ SECRET_KEY = '*2yg*z4j05$v&+l%e#n=*1f9%f*9481&bi21%d$hm#yt*h%r!k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if os.getenv('DOCKER_CONTAINER'):
+    POSTGRES_HOST = 'db'             # to run with docker
+else:
+    POSTGRES_HOST = '127.0.0.1'      # to debug using pycharm
+
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
-DATABASES = {
-    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'my_database',
+        'NAME': 'mydb',
         'USER': 'dbuser',
         'PASSWORD': 'dbpass',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': POSTGRES_HOST,            # name the docker service
+        'PORT': '5432',
         'CONN_MAX_AGE': 600,
     }
 }
-'''
 
 INSTALLED_APPS += [
     'django_extensions',

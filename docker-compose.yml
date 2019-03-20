@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  # Postgres
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+      - POSTGRES_DB=mydb
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - /pgdata:/var/lib/postgresql/data
+    networks:
+      - main  # Add the container to the network "main"
+
+  web:
+    build: .
+    environment:
+      - DJANGO_ENV=development
+      - DOCKER_CONTAINER=1
+    entrypoint: /entrypoint.sh
+    command: python3 my_app/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/my_app
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    networks:
+      - main  # Add the container to the network "main"
+    depends_on:
+      - db
+
+networks:
+  main:
