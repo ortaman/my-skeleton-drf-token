@@ -5,8 +5,26 @@
 *.pyc
 __pycache__/
 
+### Django statics ###
+_staticfiles/
+_media/
+
 ### Database ###
 db.sqlite3
 
 ### PyCharm ###
 .idea/*
+
+### Logs and databases ####
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+
+### OS generated files ###
+.DS_Store
+.DS_Store?
+
+### Third apps ###
+.coverage
+htmlcov/

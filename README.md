@@ -29,5 +29,15 @@ password: admin
 
 *  In the api directory run:
 ```sh
-docker-compose exec web my_app/manage.py test
+docker-compose exec web coverage run --source='.' my_app/manage.py test my_app
+docker-compose exec web coverage run --source='./my_app/users' my_app/manage.py test users
+docker-compose exec web coverage report
+
+```
+
+* Or in you python environment run the following from your project folder containing manage.py:
+```sh
+coverage run --source='.' manage.py test        # run the project tests
+coverage run --source='./users' manage.py test  # run the users app tests
+coverage report                                 # show a report in the terminal
 ```
