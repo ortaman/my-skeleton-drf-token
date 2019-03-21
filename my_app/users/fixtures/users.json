@@ -1,36 +1,77 @@
 [
-    {
-    "model": "users.user",
-    "fields": {
-      "id": "1",
-      "email": "admin@admin.com",
-      "username": "admin",
-      "password": "admin",
-      "names": "name",
-      "surnames": "surname",
-      "phone": "1111111111",
-      "gender": "femenino",
-      "created_at": "2011-11-11T00:00:00.000000Z",
-      "updated_at": "2011-11-12T00:00:00.000000Z",
-      "is_active": true,
-      "is_staff": true
-    }
-  },
-  {
-    "model": "users.user",
-    "fields": {
-      "id": "2",
-      "email": "user@user.com",
-      "username": "username",
-      "password": "pass",
-      "names": "name",
-      "surnames": "surname",
-      "phone": "2222222222",
-      "gender": "femenino",
-      "created_at": "2011-11-11T00:00:00.000000Z",
-      "updated_at": "2011-11-12T00:00:00.000000Z",
-      "is_active": true,
-      "is_staff": false
-    }
-  }
+   {
+      "model":"users.user",
+      "pk":1,
+      "fields":{
+         "password":"pbkdf2_sha256$120000$qYh3TVe8jtnw$9Ul3DJ/WylZlHYX5UTW3tw1QQZ4BynR5B6cgtBjRDWc=",
+         "last_login":"2019-03-21T20:47:39.520Z",
+         "is_superuser":true,
+         "username":"admin",
+         "email":"admin@admin.com",
+         "names":"admin",
+         "surnames":"admin",
+         "phone":"1212121212",
+         "gender":"masculino",
+         "is_staff":true,
+         "is_active":true,
+         "created_at":"2019-03-21T20:47:33.136Z",
+         "updated_at":"2019-03-21T20:47:59.383Z",
+         "groups":[
+
+         ],
+         "user_permissions":[
+
+         ]
+      }
+   },
+   {
+      "model":"users.user",
+      "pk":2,
+      "fields":{
+         "password":"pbkdf2_sha256$120000$2kT0PplwAGdV$jl2NN5hAgCatWT8zjYw8f7+WqGNuU8p6HfbkARWdClA=",
+         "last_login":null,
+         "is_superuser":false,
+         "username":"username1",
+         "email":"user1@user.com",
+         "names":"names1",
+         "surnames":"surnames1",
+         "phone":"1111111111",
+         "gender":"masculino",
+         "is_staff":false,
+         "is_active":true,
+         "created_at":"2019-03-21T20:48:16.494Z",
+         "updated_at":"2019-03-21T20:48:16.651Z",
+         "groups":[
+
+         ],
+         "user_permissions":[
+
+         ]
+      }
+   },
+   {
+      "model":"users.user",
+      "pk":3,
+      "fields":{
+         "password":"pbkdf2_sha256$120000$pwRBTTW5ObpA$FqCu0iL+rwgrc0L13wG9QLJnN9pYDPxRb44MXa/w2iM=",
+         "last_login":null,
+         "is_superuser":false,
+         "username":"username2",
+         "email":"user2@user.com",
+         "names":"names2",
+         "surnames":"surnames2",
+         "phone":"111111112",
+         "gender":"femenino",
+         "is_staff":false,
+         "is_active":true,
+         "created_at":"2019-03-21T20:48:37.011Z",
+         "updated_at":"2019-03-21T20:48:37.145Z",
+         "groups":[
+
+         ],
+         "user_permissions":[
+
+         ]
+      }
+   }
 ]

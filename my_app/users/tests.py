@@ -2,7 +2,6 @@
 import json
 
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase, APIClient
 
 
@@ -47,10 +46,13 @@ class UserWithAdminAuthTest(APITestCase):
     fixtures = ['users.json']
 
     def setUp(self):
-        token = Token.objects.get(user__username='admin')
-
         self.client = APIClient()
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post(
+            '/api/v1/token/',
+            data=json.dumps({"username": "admin", "password": "admin"}),
+            content_type='application/json'
+        )
+        self.client.credentials(HTTP_AUTHORIZATION='Token  {}'.format(response.data['token']))
 
     def test_retrieve_user(self):
         response = self.client.get(
@@ -65,10 +67,10 @@ class UserWithAdminAuthTest(APITestCase):
                 'id': 1,
                 "email": "admin@admin.com",
                 "username": "admin",
-                "names": "name",
-                "surnames": "surname",
-                "phone": "1111111111",
-                "gender": "femenino"
+                "names": "admin",
+                "surnames": "admin",
+                "phone": "1212121212",
+                "gender": "masculino"
             }
         )
 
@@ -77,8 +79,8 @@ class UserWithAdminAuthTest(APITestCase):
         data = {
                 'id': 1,
                 "email": "admin_updated@admin.com",
-                "username": "admin_updated",
-                "password": "pass",
+                "username": "admin",
+                "password": "admin",
                 "names": "name_updated",
                 "surnames": "surname_update",
                 "phone": "222222222",
@@ -98,7 +100,7 @@ class UserWithAdminAuthTest(APITestCase):
             {
                 'id': 1,
                 "email": "admin_updated@admin.com",
-                "username": "admin_updated",
+                "username": "admin",
                 "names": "name_updated",
                 "surnames": "surname_update",
                 "phone": "222222222",
@@ -124,10 +126,14 @@ class UserWithAuthTest(APITestCase):
     fixtures = ['users.json']
 
     def setUp(self):
-        token = Token.objects.get(user__username='username')
+        response = self.client.post(
+            '/api/v1/token/',
+            data='{"username": "username1", "password": "pass1"}',
+            content_type='application/json'
+        )
 
         self.client = APIClient()
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + response.data['token'])
 
     def test_retrieve_user(self):
         response = self.client.get(
@@ -140,12 +146,12 @@ class UserWithAuthTest(APITestCase):
             response.data,
             {
                 'id': 2,
-                "email": "user@user.com",
-                "username": "username",
-                "names": "name",
-                "surnames": "surname",
-                "phone": "2222222222",
-                "gender": "femenino"
+                "email": "user1@user.com",
+                "username": "username1",
+                "names": "names1",
+                "surnames": "surnames1",
+                "phone": "1111111111",
+                "gender": "masculino"
             }
         )
 
@@ -154,8 +160,8 @@ class UserWithAuthTest(APITestCase):
         data = {
                 'id': 2,
                 "email": "user_updated@user.com",
-                "username": "username_updated",
-                "password": "pass",
+                "username": "username1",
+                "password": "pass1",
                 "names": "name_updated",
                 "surnames": "surname_update",
                 "phone": "222222222",
@@ -175,7 +181,7 @@ class UserWithAuthTest(APITestCase):
             {
                 'id': 2,
                 "email": "user_updated@user.com",
-                "username": "username_updated",
+                "username": "username1",
                 "names": "name_updated",
                 "surnames": "surname_update",
                 "phone": "222222222",
