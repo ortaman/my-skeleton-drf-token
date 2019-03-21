@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.utils.translation import gettext_lazy as _
 
 
-class BaseUser(AbstractBaseUser, PermissionsMixin):
+class BaseUser(AbstractBaseUser, PermissionsMixin):                          # TODO change BaseUser to AbstractUser
     """
     An abstract base class implementing a fully featured User model with
     admin-compliant permissions.

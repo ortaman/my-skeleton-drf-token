@@ -30,7 +30,6 @@ INSTALLED_APPS = [
 
     # Third-Party Apps
     'rest_framework',
-    'rest_framework.authtoken',
 
     # Local Apps
     'users'
@@ -136,7 +135,7 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated', ),
