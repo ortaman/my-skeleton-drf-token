@@ -6,8 +6,10 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
 from django.utils.translation import gettext_lazy as _
 
+from common.models import AbstractBaseModel
 
-class BaseUser(AbstractBaseUser, PermissionsMixin):                          # TODO change BaseUser to AbstractUser
+
+class AbstractUser(AbstractBaseUser, PermissionsMixin):
     """
     An abstract base class implementing a fully featured User model with
     admin-compliant permissions.
@@ -21,7 +23,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):                          # T
 
     username = models.CharField(
         _('username'),
-        max_length=150,
+        max_length=128,
         unique=True,
         help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[username_validator],
@@ -29,7 +31,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):                          # T
             'unique': _("A user with that username already exists."),
         },
     )
-    email = models.EmailField(max_length=256, verbose_name=_('email'))
+    email = models.EmailField(max_length=128, verbose_name=_('email'))
     names = models.CharField(max_length=64, verbose_name=_('names'))
     surnames = models.CharField(max_length=64, verbose_name=_('surnames'))
 
@@ -49,8 +51,6 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):                          # T
             'Unselect this instead of deleting accounts.'
         ),
     )
-    created_at = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name=_('Date of creation'))
-    updated_at = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name=_('Date of the last update'))
 
     objects = UserManager()
 
@@ -83,7 +83,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):                          # T
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-class User(BaseUser):
+class User(AbstractUser, AbstractBaseModel):
 
     class Meta:
         verbose_name = _("user")
