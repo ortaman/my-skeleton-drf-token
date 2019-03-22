@@ -9,12 +9,16 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveMo
 from common.paginations import MyCustomPagination
 from .models import User
 from .serializers import UserSerializer
-from .permissions import AllowAnyCreateOrIsAuthenticated, IsSelfUserOrReadOnly
+from .permissions import UserPermissions
 
 
 class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
     """
-    Endpoint to create users for anyone, to retrieve and update the user only by the owner.
+    User endpoint permissions:
+     - create: alloy any
+     - retrieve (admin): admin authenticated
+     - retrieve (user): admin or user authenticated
+     - update: itself user authenticated
     """
     lookup_field = 'pk'
 
@@ -23,7 +27,7 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
 
     authentication_classes = (JSONWebTokenAuthentication,)
     pagination_class = MyCustomPagination
-    permission_classes = (AllowAnyCreateOrIsAuthenticated, IsSelfUserOrReadOnly)
+    permission_classes = (UserPermissions,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -40,20 +44,16 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
 
         return Response({'token': token}, status=status.HTTP_201_CREATED, headers=headers)
 
-    ''' TODO
+    '''
     def get_permissions(self):
         if self.action == 'create':
             permission_classes = [AllowAny]
         if self.action == 'retrieve' or self.action == 'list':
             permission_classes = [IsUserOrAdmin]
-        elif self.action == 'update' or self.action == 'partial_update':
+        elif self.action in ['update', 'partial_update', 'destroy']:
             permission_classes = [IsSelfUser]
-        elif self.action == 'destroy':
-            permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
-        if self.request.user.is_staff:
-            return FullAccountSerializer
-        return BasicAccountSerializer
+        pass
     '''

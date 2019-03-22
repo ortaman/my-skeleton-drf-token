@@ -2,23 +2,29 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
-class AllowAnyCreateOrIsAuthenticated(BasePermission):
-    """
-    The request is authenticated as a user, or is a read-only request.
-    """
+class UserPermissions(BasePermission):
 
     def has_permission(self, request, view):
+        """
+         - POST: Alloy any
+         - All HTTP methods: If is authenticated
+        """
         if request.method == 'POST' or request.user.is_authenticated:
             return True
         return False
 
-
-class IsSelfUserOrReadOnly(BasePermission):
-
     def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in SAFE_METHODS:
+        """
+         - retrieve (admin): only admins
+         - retrieve (user): admins and user.
+         - update: itself user
+        """
+        if view.action == 'retrieve':
+            if not request.user.is_staff and obj.is_staff:
+                return False
+
+        if request.method in SAFE_METHODS:  # GET, HEAD or OPTIONS
             return True
 
-        return obj == request.user
+        return request.user == obj
+
