@@ -17,10 +17,10 @@ class UserAdmin(UserAdmin):
         ('Información adicional',
             {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups')}),
         ('Información adicional',
-            {'fields': ('created_at', 'updated_at')}),
+            {'fields': ('created_at', 'updated_at', 'last_login')}),
     )
 
-    readonly_fields = ('created_at', 'updated_at', 'id')
+    readonly_fields = ('id', 'created_at', 'updated_at', 'last_login')
 
     search_fields = ('email', 'surnames',)
     ordering = ('surnames', 'email')
