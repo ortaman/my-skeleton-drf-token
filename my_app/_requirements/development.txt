@@ -9,5 +9,6 @@ drf-yasg
 httpie
 ipython
 
-
-# flake8
+# To graph models
+pyparsing
+pydot
