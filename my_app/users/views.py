@@ -1,12 +1,12 @@
 
 from rest_framework import status
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework_jwt.settings import api_settings
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 
 from common.paginations import MyCustomPagination
+from common.utils import create_jwt
 from .models import User
 from .serializers import UserSerializer
 from .permissions import UserPermissions
@@ -35,13 +35,8 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
         self.perform_create(serializer)
 
         headers = self.get_success_headers(serializer.data)
-
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-        payload = jwt_payload_handler(serializer.instance)
-        token = jwt_encode_handler(payload)
-
+        token = create_jwt(serializer.instance)
+        
         return Response({'token': token}, status=status.HTTP_201_CREATED, headers=headers)
 
     '''

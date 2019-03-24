@@ -27,4 +27,3 @@ class UserPermissions(BasePermission):
             return True
 
         return request.user == obj
-
