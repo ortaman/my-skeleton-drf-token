@@ -16,8 +16,7 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
     """
     User endpoint permissions:
      - create: alloy any
-     - retrieve (admin): admin authenticated
-     - retrieve (user): admin or user authenticated
+     - retrieve: admin or user authenticated
      - update: itself user authenticated
     """
     lookup_field = 'pk'

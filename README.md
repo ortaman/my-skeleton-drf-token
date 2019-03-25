@@ -22,7 +22,7 @@ http://localhost:8000/admin
 * Login credentials:
 ```sh
 user: admin
-password: admin
+password: passqwe1
 ```
 
 ### Tests

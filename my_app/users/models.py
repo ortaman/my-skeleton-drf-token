@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
@@ -9,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from common.models import AbstractBaseModel
 
 
-class AbstractUser(AbstractBaseUser, PermissionsMixin):
+class BaseUser(AbstractBaseUser, PermissionsMixin):
     """
     An abstract base class implementing a fully featured User model with
     admin-compliant permissions.
@@ -27,9 +28,7 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         help_text=_('Required. 128 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
+        error_messages={'unique': _("A user with that username already exists.")},
     )
     email = models.EmailField(max_length=128, verbose_name=_('email'))
     names = models.CharField(max_length=64, verbose_name=_('names'))
@@ -61,7 +60,6 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('base_user')
         verbose_name_plural = _('base_users')
-        abstract = True
 
     def clean(self):
         super().clean()
@@ -83,10 +81,20 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-class User(AbstractUser, AbstractBaseModel):
+class AdminUser(BaseUser, AbstractBaseModel):
 
     class Meta:
-        verbose_name = _("user")
+        verbose_name = _("Administrator")
+        verbose_name_plural = _("Administrators")
+
+    def __str__(self):
+        return "%s" % (self.get_full_name())
+
+
+class User(BaseUser, AbstractBaseModel):
+
+    class Meta:
+        verbose_name = _("User")
         verbose_name_plural = _("Users")
 
     def __str__(self):
