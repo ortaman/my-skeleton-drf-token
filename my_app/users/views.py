@@ -1,12 +1,12 @@
 
 from rest_framework import status
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 
 from common.paginations import MyCustomPagination
 from common.utils import create_jwt
+from .authentication import JWTAuthentication
 from .models import User
 from .serializers import UserSerializer
 from .permissions import UserPermissions
@@ -16,8 +16,7 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
     """
     User endpoint permissions:
      - create: alloy any
-     - retrieve (admin): admin authenticated
-     - retrieve (user): admin or user authenticated
+     - retrieve: admin or user authenticated
      - update: itself user authenticated
     """
     lookup_field = 'pk'
@@ -25,7 +24,7 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (JWTAuthentication,)
     pagination_class = MyCustomPagination
     permission_classes = (UserPermissions,)
 

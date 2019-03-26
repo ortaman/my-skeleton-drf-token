@@ -15,14 +15,9 @@ class UserPermissions(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         """
-         - retrieve (admin): only admins
-         - retrieve (user): admins and user.
+         - retrieve: admins and user.
          - update: itself user
         """
-        if view.action == 'retrieve':
-            if not request.user.is_staff and obj.is_staff:
-                return False
-
         if request.method in SAFE_METHODS:  # GET, HEAD or OPTIONS
             return True
 

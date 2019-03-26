@@ -1,10 +1,10 @@
 
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
-from .models import User
+from .models import Administrator, User
 
 
-class UserAdmin(UserAdmin):
+class AdministratorAdmin(UserAdmin):
 
     list_display = ('email', 'username', 'names', 'surnames')
     list_filter = ('is_staff', 'is_active')
@@ -27,4 +27,9 @@ class UserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
+class UserAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Administrator, AdministratorAdmin)
 admin.site.register(User, UserAdmin)
