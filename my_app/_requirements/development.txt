@@ -5,9 +5,12 @@ django-autocomplete-light
 django-cors-headers
 django-debug-toolbar
 django-extensions
-drf-yasg
 httpie
 ipython
+
+# To swagger
+packaging
+drf-yasg
 
 # To graph models
 pyparsing

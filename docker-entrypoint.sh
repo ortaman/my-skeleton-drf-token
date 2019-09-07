@@ -5,6 +5,7 @@
 
 echo "Apply database migrations"
 python my_app/manage.py migrate --noinput
+python my_app/manage.py migrate users
 
 echo "Load data"
 python my_app/manage.py loaddata my_app/db.json

@@ -1,7 +1,6 @@
 
-django
+django==2.2.5
 djangorestframework
 djangorestframework-jwt
 psycopg2
-psycopg2-binary
 Pillow
