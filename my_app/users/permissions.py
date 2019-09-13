@@ -7,10 +7,20 @@ class UserPermissions(BasePermission):
     def has_permission(self, request, view):
         """
          - POST: Alloy any
-         - All HTTP methods: If is authenticated
+         - All HTTP methods: If is authenticated and is not admin
         """
-        if request.method == 'POST' or request.user.is_authenticated:
+
+        # All can create a users
+        if request.method == 'POST':
             return True
+
+        # Admin dont have permission to the endponints
+        elif request.user.is_staff:
+            return False
+
+        elif request.user.is_authenticated:
+            return True
+
         return False
 
     def has_object_permission(self, request, view, obj):

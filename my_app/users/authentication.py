@@ -2,6 +2,9 @@
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import exceptions
 from rest_framework_jwt.settings import api_settings
+from django.contrib.auth import get_user_model
+
+from common.utils import get_object_or_none
 
 from .models import User
 
@@ -20,14 +23,17 @@ class JWTAuthentication(JSONWebTokenAuthentication):
             msg = _('Invalid payload.')
             raise exceptions.AuthenticationFailed(msg)
 
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            msg = _('Invalid signature.')
+        user = get_object_or_none(User, username=username)
+        admin = get_object_or_none(get_user_model(), username=username)
+
+        if not user and not admin:
+            msg = _('Invalid user.')
             raise exceptions.AuthenticationFailed(msg)
 
-        if not user.is_active:
+        model = user if user else admin
+
+        if not model.is_active:
             msg = _('User account is disabled.')
             raise exceptions.AuthenticationFailed(msg)
 
-        return user
+        return model

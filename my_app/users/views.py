@@ -5,7 +5,9 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 
 from common.paginations import MyCustomPagination
+from common.permissions import AdminPermissions
 from common.utils import create_jwt
+
 from .authentication import JWTAuthentication
 from .models import User
 from .serializers import UserSerializer
@@ -16,7 +18,7 @@ class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Generi
     """
     User endpoint permissions:
      - create: alloy any
-     - retrieve: admin or user authenticated
+     - retrieve: user authenticated
      - update: itself user authenticated
     """
     lookup_field = 'pk'

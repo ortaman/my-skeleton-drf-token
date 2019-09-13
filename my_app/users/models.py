@@ -141,6 +141,10 @@ class User(AbstractBaseModel):
     def is_authenticated(self):
         return True
 
+    @property
+    def is_staff(self):
+        return False
+
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")

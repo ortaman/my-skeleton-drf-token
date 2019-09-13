@@ -49,7 +49,7 @@ coverage report                                 # show a report in the terminal
 $ sudo apt-get install graphviz
 
 # Create a PNG image file called my_project_visualized.png with application grouping
-$ python manage.py graph_models --pygraphviz -a -g -o my_project_visualized.png
+$ python manage.py graph_models --pygraphviz -a -g -o _graph_models.png
 
 Create a dot file for only the 'foo' and 'bar' applications of your project
 $ python manage.py graph_models foo bar > my_project.dot
