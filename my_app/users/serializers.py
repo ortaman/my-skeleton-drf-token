@@ -8,10 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        extra_kwargs = {'password': {'write_only': True}}
-        fields = ('id', 'email', 'username', 'password', 'names', 'surnames', 'phone', 'gender')
+        extra_kwargs = {'provider_id': {'write_only': True}}
+        fields = ('id', 'names', 'surnames', 'birthday', 'gender', 'phone',
+                  'email', 'picture', 'location', 'category', 'skill')
 
-    read_only_fields = ('is_staff', 'created_at', 'updated_at')
+    read_only_fields = ('created_at', 'updated_at')
 
     def create(self, validated_data):
         user = super(UserSerializer, self).create(validated_data)
@@ -21,6 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = super(UserSerializer, self).update(instance, validated_data)
-        user.set_password(validated_data['password'])
+        # update if is necesary add user with form from the frontend
+        # user.set_password(validated_data['password'])
         user.save()
         return user

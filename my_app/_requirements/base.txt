@@ -2,5 +2,6 @@
 django==2.2.5
 djangorestframework
 djangorestframework-jwt
+facebook-sdk
 psycopg2
 Pillow

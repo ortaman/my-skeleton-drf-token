@@ -100,3 +100,18 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': None,
 
 }
+
+###   django-cors-headers   ###
+INSTALLED_APPS += [
+    'corsheaders'
+]
+
+MIDDLEWARE += [
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
