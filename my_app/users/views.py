@@ -63,6 +63,13 @@ class ObtainJWTokenCustom(APIView):
                     fields='id, first_name, middle_name, last_name, '
                            'birthday, gender, email, picture, location'
                 )
+                user_info['provider_id'] = user_info.get('id')
+                user_info['names'] = user_info.get('first_name')
+                user_info['surnames'] = '{0} {1}'.format(user_info.get('middle_name'), user_info.get('last_name'))
+                user_info['picture'] = user_info['picture']['data']['url']
+                user_info['location'] = user_info['location']['name']
+                user_info['last_login'] = str(datetime.now())
+
             except facebook.GraphAPIError as exception:
                 # TO DO: Add logger here adding the graph error.
                 print(exception.message)
@@ -72,42 +79,21 @@ class ObtainJWTokenCustom(APIView):
                 status_response = status.HTTP_200_OK
                 user = User.objects.get(provider_id=user_info.get('id'))
 
-                user.provider_id=user_info.get('id')
-                user.names=user_info.get('first_name')
-                user.surnames='{0} {1}'.format(user_info.get('middle_name'), user_info.get('last_name'))
-                user.birthday=user_info.get('birthday')
-                user.gender=user_info.get('gender')
-                user.phone=user_info.get('phone')
-                user.email=user_info.get('email')
-                user.picture=user_info.get('picture')['data']['url']
-                user.location=user_info.get('location')['name']
-                user.category=user_info.get('category')
-                user.last_login=str(datetime.now())
-                user.save()
-
                 if not user.is_active:
                     Response('User account is disabled.', status=status.HTTP_400_BAD_REQUEST)
+
+                serializer = UserSerializer(user, data=user_info)
 
             except User.DoesNotExist:
                 status_response = status.HTTP_201_CREATED
 
-                user = User(
-                    provider_id=user_info.get('id'),
-                    names=user_info.get('first_name'),
-                    surnames='{0} {1}'.format(user_info.get('middle_name'), user_info.get('last_name')),
-                    birthday=user_info.get('birthday'),
-                    gender=user_info.get('gender'),
-                    phone=user_info.get('phone'),
-                    email=user_info.get('email'),
-                    picture=user_info.get('picture')['data']['url'],
-                    location=user_info.get('location')['name'],
-                    category=user_info.get('category'),
-                    last_login=str(datetime.now())
-                )
+                serializer = UserSerializer(data=user_info)
 
-            user.save()
+            if not serializer.is_valid():
+                Response(data=serializer.errors, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
-            payload = jwt_payload_handler_custom(user)
+            serializer.save()
+            payload = jwt_payload_handler_custom(serializer.instance)
 
             return Response({'token': jwt_encode_handler(payload)}, status=status_response)
 

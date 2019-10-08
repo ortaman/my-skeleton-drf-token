@@ -6,6 +6,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import exceptions
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext as _
 
 from common.utils import get_object_or_none
 from .models import User
