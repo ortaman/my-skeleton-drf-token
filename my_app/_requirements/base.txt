@@ -1,5 +1,5 @@
 
-django==2.2.5
+django==2.2.20
 djangorestframework
 djangorestframework-jwt
 facebook-sdk
